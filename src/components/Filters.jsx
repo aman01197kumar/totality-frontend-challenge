@@ -5,7 +5,6 @@ import Location from "./Location";
 import NumberOfBeds from "./NumberOfBeds";
 import Price from "./Price";
 import SellIcon from "@mui/icons-material/Sell";
-import { useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
 import { propertyCardData } from "../assets/data/propertyCardData";
 
@@ -16,58 +15,42 @@ export default function Filters({ setPropertyCard }) {
   const [amenities, setAmenities] = useState([]);
   const { cartArray } = useSelector((state) => state.shoppingCart);
 
-  function intersectArrays(arr1, arr2, arr3, arr4) {
-    let result = [];
-    let i = 0,
-      j = 0,
-      k = 0,
-      l = 0;
+  function intersectArrays(...arrays) {
+    const result = [];
+    const pointers = new Array(arrays.length).fill(0);
 
-    // Traverse all four arrays
-    while (
-      i < arr1.length &&
-      j < arr2.length &&
-      k < arr3.length &&
-      l < arr4.length
-    ) {
-      let id1 = arr1[i].id;
-      let id2 = arr2[j].id;
-      let id3 = arr3[k].id;
-      let id4 = arr4[l].id;
+    while (pointers.every((ptr, index) => ptr < arrays[index].length)) {
+      const ids = arrays.map((arr, index) => arr[pointers[index]].id);
+      const minId = Math.min(...ids);
+      const maxId = Math.max(...ids);
 
-      // If all Ids are equal, it's an intersection
-      if (id1 === id2 && id2 === id3 && id3 === id4) {
-        result.push(arr1[i]); // or any of arr1[i], arr2[j], arr3[k], arr4[l] as they are the same
-        i++;
-        j++;
-        k++;
-        l++;
-      }
-      // Increment the pointer of the array with the smallest Id
-      else if (id1 < id2) {
-        i++;
-      } else if (id2 < id3) {
-        j++;
-      } else if (id3 < id4) {
-        k++;
+      if (minId === maxId) {
+        result.push(arrays[0][pointers[0]]); // Push from any array as they are the same
+        pointers.forEach((_, index) => pointers[index]++);
       } else {
-        l++;
+        pointers.forEach((_, index) => {
+          if (ids[index] === minId) {
+            pointers[index]++;
+          }
+        });
       }
     }
-
     return result;
   }
+
   const applyFilterHandler = () => {
-    const filteredData = (findLocation.length === 0 && price.length === 0 && amenities.length === 0 && numberOfBeds.length === 0) ? []: intersectArrays(
-      findLocation.length !== 0 ? findLocation : propertyCardData,
-      price.length !== 0 ? price : propertyCardData,
-      amenities.length !== 0 ? amenities : propertyCardData,
-      numberOfBeds.length !== 0 ? numberOfBeds : propertyCardData
+    const filters = [findLocation, price, amenities, numberOfBeds].map(
+      (filter) => (filter.length !== 0 ? filter : propertyCardData)
     );
-    console.log("filtered data: ");
-    console.log(filteredData);
+
+    const filteredData = filters.every((filter) => filter === propertyCardData)
+      ? []
+      : intersectArrays(...filters);
+
+    console.log("filtered data:", filteredData);
     setPropertyCard(filteredData);
   };
+
   return (
     <div className="flex flex-wrap justify-between items-center p-4 bg-white shadow-md">
       <div className="flex-1 md:flex-initial">

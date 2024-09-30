@@ -15,20 +15,20 @@ const Home = () => {
   };
 
   return (
-    <div className="relative">
-      <IconButton
-        edge="start"
-        className="block xl:hidden" // Shows on mobile, hides on larger screens
-        color="inherit"
-        aria-label="menu"
-        onClick={toggleDrawer(true)}
-      >
+    <div>
+      <div className="ml-5 mt-5 block xl:hidden" onClick={toggleDrawer(true)}>
         <MenuIcon />
-      </IconButton>
+      </div>
 
       {/* Drawer Component for Filters */}
-      <Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer(false)}>
-        <div className="p-4 w-1/3">
+      <Drawer
+        anchor="left"
+        open={drawerOpen}
+        onClose={toggleDrawer(false)}
+        // className="w-1/3"
+        sx={{ width: "33vw" }}
+      >
+        <div className="p-4">
           <h2>Filters</h2> {/* Title for the filters section */}
           <Filters setPropertyCard={setPropertyCard} />
         </div>
