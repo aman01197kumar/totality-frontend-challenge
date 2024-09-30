@@ -58,12 +58,14 @@ export default function Filters({ setPropertyCard }) {
     return result;
   }
   const applyFilterHandler = () => {
-    const filteredData = intersectArrays(
+    const filteredData = (findLocation.length === 0 && price.length === 0 && amenities.length === 0 && numberOfBeds.length === 0) ? []: intersectArrays(
       findLocation.length !== 0 ? findLocation : propertyCardData,
       price.length !== 0 ? price : propertyCardData,
       amenities.length !== 0 ? amenities : propertyCardData,
       numberOfBeds.length !== 0 ? numberOfBeds : propertyCardData
     );
+    console.log("filtered data: ");
+    console.log(filteredData);
     setPropertyCard(filteredData);
   };
   return (
