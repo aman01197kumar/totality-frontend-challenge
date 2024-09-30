@@ -12,19 +12,21 @@ const prices = [
   "1000000 above",
 ];
 
-const Price = ({ setPropertyCard }) => {
+const Price = ({ setPrice }) => {
   const [priceRange, setPriceRange] = useState("");
 
   const handleChange = (e) => {
     const selectedRange = e.target.value;
     setPriceRange(selectedRange);
 
+    // setPrice(priceRange);
+
     const filteredData = propertyCardData.filter((item) => {
       const price = item.price; // Assuming item.price is a number
       return isPriceInRange(price, selectedRange);
     });
-    
-    setPropertyCard(filteredData);
+
+    setPrice(filteredData);
   };
 
   const isPriceInRange = (price, range) => {
@@ -41,7 +43,7 @@ const Price = ({ setPropertyCard }) => {
   };
 
   return (
-    <FormControl sx={{mt:1, width: 220 }} size="small">
+    <FormControl sx={{ mt: 1, width: 220 }} size="small">
       <InputLabel id="demo-select-small-label">Price Range</InputLabel>
       <Select
         labelId="demo-select-small-label"

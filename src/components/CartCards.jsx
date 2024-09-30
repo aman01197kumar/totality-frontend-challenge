@@ -45,6 +45,7 @@ const CartCards = ({ img, title, description, index, price }) => {
         expandIcon={<ExpandMoreIcon />}
         aria-controls="panel1-content"
         id="panel1-header"
+        sx={{fontWeight:'bold'}}
       >
         {title}
       </AccordionSummary>

@@ -13,7 +13,7 @@ const amenities = [
   "Playing Area",
 ];
 
-const Amenities = ({ setPropertyCard }) => {
+const Amenities = ({ setAmenities }) => {
   const [amenity, setAmenity] = useState("");
 
   const handleChange = (e) => {
@@ -24,7 +24,8 @@ const Amenities = ({ setPropertyCard }) => {
       (property) => property.amenities.includes(selectedValue) // Check if the selectedValue is in the amenities array
     );
 
-    setPropertyCard(filteredData);
+    
+    setAmenities(filteredData);
   };
 
   return (

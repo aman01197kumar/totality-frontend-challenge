@@ -5,21 +5,22 @@ import { InputLabel } from "@mui/material";
 import { useState } from "react";
 import { propertyCardData } from "../assets/data/propertyCardData";
 
-const NumberOfBeds = ({ setPropertyCard }) => {
-  const [noOfBeds, setNoOfBeds] = useState("");
+const NumberOfBeds = ({ setNumberOfBed }) => {
+  const [noOfBeds, setNoOfBeds] = useState(0);
 
   const handleChange = (e) => {
-    const selectedValue = Number(e.target.value);
-    setNoOfBeds(selectedValue);
+    
+    setNoOfBeds(e.target.value)
+    
 
     const filteredData = propertyCardData.filter(
-      (item) => item.no_of_beds === selectedValue // Direct comparison instead of includes
+      (item) => item.no_of_beds === noOfBeds // Direct comparison instead of includes
     );
-    setPropertyCard(filteredData);
+    setNumberOfBed(filteredData);
   };
 
   return (
-    <FormControl sx={{mt:1, width: 220 }} size="small">
+    <FormControl sx={{ mt: 1, width: 220 }} size="small">
       <InputLabel id="demo-select-small-label">Number of Beds</InputLabel>
       <Select
         labelId="demo-select-small-label"
